@@ -1,5 +1,7 @@
 package commonFunctions;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class FuntionLibrary 
+public class functionLibrary 
 {
 
 	public static WebDriver driver;
@@ -25,14 +27,15 @@ public class FuntionLibrary
 	public static WebDriver startBrowser() throws Throwable
 	{
 	//conpro.load("C:\\Liveproject\\ERP_hybrid_StockAccounting\\");	
-		conpro.load(new FileInputStream("./Liveproject/ERP_hybrid_StockAccounting"));
-		if(conpro.getProperty("browser").equalsIgnoreCase("firefox"))
+		conpro = new Properties();
+		conpro.load(new FileInputStream("./PropertyFile/Environment.properties"));
+		if(conpro.getProperty("Browser").equalsIgnoreCase("firefox"))
 		{
 			driver = new FirefoxDriver();
 			//driver.manage().window().maximize(); it automatically opens max window
 			driver.manage().deleteAllCookies();
 		}
-		else if(conpro.getProperty("browser").equalsIgnoreCase("chrome"))
+		else if(conpro.getProperty("Browser").equalsIgnoreCase("chrome"))
 		{
 			driver = new ChromeDriver();
 			driver.manage().window().maximize();
@@ -56,7 +59,7 @@ public class FuntionLibrary
 		if(Locator_Type.equalsIgnoreCase("name"))
 		{
 			mywait.until(ExpectedConditions.visibilityOfElementLocated(By.name(Locator_value)));
-		}else if(Locator_Type.equalsIgnoreCase("xapth"))
+		}else if(Locator_Type.equalsIgnoreCase("xpath"))
 		{
 			mywait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Locator_value)));
 		}else if(Locator_Type.equalsIgnoreCase("id"))
@@ -101,9 +104,11 @@ public class FuntionLibrary
     public static void validateTitle(WebDriver driver,String Expected_Title)
     {
 	String Actual_title = driver.getTitle();
+	//System.out.println(Actual_title);
 	try
 	{
-	Assert.assertEquals(Expected_Title, Actual_title,"Title is not matching");
+		assertEquals(Expected_Title, Actual_title,"Title is not matching");
+	//Assert.assertEquals(Expected_Title,Actual_title,"Title is not matching");
 	}catch(Throwable t)
 	{
 		System.out.println(t.getMessage());
