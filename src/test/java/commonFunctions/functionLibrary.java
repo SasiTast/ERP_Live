@@ -12,6 +12,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -87,7 +88,7 @@ public class functionLibrary
 		}
 	}
 	//method for buttons,images,links,radio buttons,checkboxes
-	public static void clickAction(WebDriver driver,String Locator_Type,String Locator_value,String Test_Data)
+	public static void clickAction(WebDriver driver,String Locator_Type,String Locator_value)
 	{
 		if(Locator_Type.equalsIgnoreCase("id"))
 		{
@@ -116,9 +117,38 @@ public class functionLibrary
      }
 
     //method for closeBrowser
-
     public static void closeBrowser(WebDriver driver) 
     {
-    	driver.close();
+    	driver.quit();
     }
+    //method for mouseClick
+    public static void mouseClick(WebDriver driver) throws Throwable
+    {
+    	Actions ac = new Actions(driver);
+        ac.moveToElement(driver.findElement(By.xpath("//a[starts-with(text(),'Stock Items ')]"))).perform();
+        Thread.sleep(3000);
+    	ac.moveToElement(driver.findElement(By.xpath("(//a[.='Stock Categories'])[2]"))).click().perform();
+    }
+    //method for category table
+    public static void categoryTable(WebDriver driver,String ExpectedData) throws Throwable
+    {
+    if(!driver.findElement(By.xpath(conpro.getProperty("Search-textbox"))).isDisplayed())
+    {
+    	driver.findElement(By.xpath(conpro.getProperty("Search-panel"))).click();
+    }
+    driver.findElement(By.xpath(conpro.getProperty("Search-textbox"))).sendKeys(ExpectedData);
+    Thread.sleep(3000);
+    driver.findElement(By.xpath(conpro.getProperty("Search-button"))).click();
+    Thread.sleep(3000);
+    String Actual_Data = driver.findElement(By.xpath("//table[@id='tbl_a_stock_categorieslist']/tbody/tr/td[4]/div/span/span")).getText();
+    System.out.println(Actual_Data+"      "+ExpectedData);
+    try
+    {
+    Assert.assertEquals(Actual_Data, ExpectedData, "Category name not matching");
+    }catch (Exception e) 
+    {
+		System.out.println(e.getMessage());
+	}
+    }
+    
 }

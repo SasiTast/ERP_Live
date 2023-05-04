@@ -1,4 +1,4 @@
-package utilities;
+package xlutilities;
 
 import java.awt.image.IndexColorModel;
 import java.io.FileInputStream;

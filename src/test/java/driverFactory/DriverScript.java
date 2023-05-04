@@ -1,7 +1,8 @@
 package driverFactory;
 
 import commonFunctions.functionLibrary;
-import utilities.ExcelFileUtility;
+import xlutilities.ExcelFileUtility;
+
 
 public class DriverScript extends functionLibrary
 {
@@ -46,13 +47,21 @@ public class DriverScript extends functionLibrary
     					functionLibrary.typeAction(driver, locatortype, locatorvalue, testdata);
     				}else if(ObjectType.equalsIgnoreCase("clickAction"))
     				{
-    					functionLibrary.clickAction(driver, locatortype, locatorvalue, testdata);
+    					functionLibrary.clickAction(driver, locatortype, locatorvalue);
     				}else if(ObjectType.equalsIgnoreCase("validateTitle"))
     				{
     					functionLibrary.validateTitle(driver, testdata);
     				}else if(ObjectType.equalsIgnoreCase("closeBrowser"))
     				{
     					functionLibrary.closeBrowser(driver);
+    				}
+    				else if(ObjectType.equalsIgnoreCase("mouseClick"))
+    				{
+    					functionLibrary.mouseClick(driver);
+    				}
+    				else if(ObjectType.equalsIgnoreCase("categoryTable"))
+    				{
+    					functionLibrary.categoryTable(driver, testdata);
     				}
     				//write as pass into status cell TCModule 
     				xl.setcelldata(Tc_Module, j, 5, "pass", outputpath);
@@ -80,6 +89,7 @@ public class DriverScript extends functionLibrary
     			xl.setcelldata("MasterTestCases", i, 3, "Blocked", outputpath);
     			
     		}
+    		
     	}
     }
 	
