@@ -5,11 +5,16 @@ import static org.testng.Assert.assertEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -150,5 +155,40 @@ public class functionLibrary
 		System.out.println(e.getMessage());
 	}
     }
-    
+    //method for capturesnumber
+    public static void captureSnumber(WebDriver driver,String Locator_Type,String Locator_value)
+    {
+    	expected = driver.findElement(By.xpath(Locator_value)).getAttribute("value");
+    	
+    }
+    //method for supplierTable
+    public static void supplierTable(WebDriver driver) throws Throwable
+    {
+    	if(!driver.findElement(By.xpath(conpro.getProperty("Search-textbox"))).isDisplayed());
+    	{
+    		driver.findElement(By.xpath(conpro.getProperty("Search-panel"))).click();
+    	}
+    	driver.findElement(By.xpath(conpro.getProperty("Search-textbox"))).sendKeys(expected);
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(conpro.getProperty("Search-button"))).click();
+        Thread.sleep(3000);
+        String Actual_Data = driver.findElement(By.xpath("//table[@id='tbl_a_supplierslist']/tbody/tr/td[6]/div/span/span")).getText();
+        System.out.println(Actual_Data+"      "+expected);
+        try
+        {
+        Assert.assertEquals(Actual_Data, expected, "supplier number not matching");
+        }catch (Exception e) 
+        {
+    		System.out.println(e.getMessage());
+    	}
+    	
+    }
+    //method for generating date
+    public static String generateDate()
+    {
+    Date dt = new Date();
+    DateFormat df = new SimpleDateFormat("YYYY_MM_DD hh_mm");
+    return df.format(dt);
+    }
+
 }
